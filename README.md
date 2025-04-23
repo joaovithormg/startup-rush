@@ -1,132 +1,227 @@
-🚀 Startup Rush
+# Instruções de Execução - Sistema de Torneio de Startups
 
-Torneio de Startups Competitivas
+## Visão Geral
 
-Lumen
-Vue.js
-PostgreSQL
+Este sistema permite organizar e executar torneios entre startups, gerenciar batalhas, e gerar relatórios de desempenho. O frontend é desenvolvido em Vue.js, enquanto o backend utiliza o framework Lumen (PHP).
 
-Um sistema interativo que simula um torneio eliminatório entre startups, com pontuações dinâmicas, eventos aleatórios e batalhas administradas por um usuário-jurado.
+## Estrutura do Sistema
 
+### Frontend (Vue.js)
+- **Home** (`/`): Página inicial da aplicação
+- **Startups** (`/startups`): Cadastro e visualização de startups
+- **Torneio** (`/torneio`): Gerenciamento do torneio
+- **Batalhas** (`/batalhas`): Avaliação de batalhas pendentes
+- **Relatórios** (`/relatorios`): Visualização de relatórios de desempenho
 
+### Backend (Lumen)
+- **Startups**: Cadastro e listagem
+- **Torneio**: Iniciar, avançar, verificar status e resetar
+- **Batalhas**: Listar batalhas pendentes e resolver confrontos
+- **Relatórios**: Gerar relatórios simples e detalhados do torneio
 
-📌 Funcionalidades
+## Pré-requisitos
 
-✔️ Cadastro de startups (nome, slogan, ano de fundação).
-✔️ Sorteio automático de batalhas em rodadas eliminatórias.
-✔️ Eventos que afetam pontuações (ex: Pitch convincente, Fake news no pitch).
-✔️ Shark Fight para desempates (rodada relâmpago com +2pts aleatórios).
-✔️ Painel administrativo para registrar eventos e definir vencedores.
-✔️ Relatório final com ranking e estatísticas das startups.
-✔️ Feature Extra: Histórico de Torneios (salva e exibe resultados de competições anteriores).
-🛠️ Tecnologias
+1. Node.js e npm para o frontend
+2. PHP 7.4+ e Composer para o backend
+3. Banco de dados (MySQL/PostgreSQL)
+4. Servidor web (Apache/Nginx) ou ambiente de desenvolvimento PHP
 
-    Backend: Lumen (API REST)
+## Instalação
 
-    Frontend: Vue.js + TailwindCSS
+### Backend (Lumen)
 
-    Banco de Dados: PostgreSQL
+1. Clone o repositório
+   ```bash
+   git clone [URL_DO_REPOSITORIO]
+   cd [PASTA_DO_BACKEND]
+   ```
 
-    Deploy: Docker (opcional)
+2. Instale as dependências
+   ```bash
+   composer install
+   ```
 
-⚙️ Instalação
-Pré-requisitos
+3. Configure o ambiente
+   ```bash
+   cp .env.example .env
+   # Edite o arquivo .env com as configurações de banco de dados
+   ```
 
-    Node.js (v16+)
+4. Execute as migrações
+   ```bash
+   php artisan migrate
+   ```
 
-    PHP (v8+) e Composer
+5. Inicie o servidor de desenvolvimento
+   ```bash
+   php -S localhost:8000 -t public
+   ```
 
-    PostgreSQL (v14+)
+### Frontend (Vue.js)
 
-Passos
+1. Navegue até a pasta do frontend
+   ```bash
+   cd [PASTA_DO_FRONTEND]
+   ```
 
-    Clone o repositório:
-    bash
+2. Instale as dependências
+   ```bash
+   npm install
+   ```
 
-git clone https://github.com/seu-usuario/startup-rush.git
-cd startup-rush
+3. Configure a API URL
+   ```bash
+   # Edite o arquivo .env ou .env.local
+   VUE_APP_API_URL=http://localhost:8000
+   ```
 
-Instale as dependências:
-bash
+4. Inicie o servidor de desenvolvimento
+   ```bash
+   npm run serve
+   ```
 
-# Backend
-cd backend
-composer install
-cp .env.example .env
-php artisan key:generate
+5. Acesse a aplicação em `http://localhost:8080`
 
-# Frontend
-cd ../frontend
-npm install
+## Fluxo de Utilização
 
-Configure o banco de dados:
+### 1. Cadastro de Startups
 
-    Crie um banco startuprush no PostgreSQL.
+1. Acesse a página de Startups (`/startups`)
+2. Preencha o formulário com dados das startups:
+   - Nome
+   - Slogan
+   - Ano de fundação
+3. Envie o formulário para cadastrar novas startups
+4. Visualize a lista de startups cadastradas na mesma página
 
-    Atualize o .env do backend:
-    env
+**API Relacionada:**
+- `POST /startups` - Cadastrar uma nova startup
+- `GET /startups` - Listar todas as startups cadastradas
 
-    DB_CONNECTION=pgsql
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_DATABASE=startuprush
-    DB_USERNAME=seu_usuario
-    DB_PASSWORD=sua_senha
+### 2. Configuração e Início do Torneio
 
-Execute as migrations:
-bash
+1. Acesse a página de Torneio (`/torneio`)
+2. Configure os parâmetros do torneio:
+   - Formato (eliminatória simples, grupos, etc.)
+   - Quantidade de rodadas
+   - Critérios de avaliação
+3. Selecione as startups participantes
+4. Clique em "Iniciar Torneio"
 
-php artisan migrate --seed
+**API Relacionada:**
+- `POST /torneio/iniciar` - Iniciar o torneio com as configurações definidas
+- `GET /torneio/status` - Verificar o status atual do torneio
 
-Inicie os servidores:
-bash
+### 3. Gerenciamento de Batalhas
 
-    # Backend (em /backend)
-    php -S localhost:8000 -t public
+1. Acesse a página de Batalhas (`/batalhas`)
+2. Visualize as batalhas pendentes
+3. Para cada batalha:
+   - Analise os dados das startups confrontantes
+   - Avalie de acordo com os critérios estabelecidos
+   - Selecione a vencedora
+   - Adicione comentários e pontuações
+4. Confirme a resolução da batalha
 
-    # Frontend (em /frontend)
-    npm run dev
+**API Relacionada:**
+- `GET /batalhas/pendentes` - Listar batalhas pendentes
+- `POST /batalhas/{id}/resolver` - Resolver uma batalha específica
 
-    Acesse: http://localhost:3000.
+### 4. Progressão do Torneio
 
-🎮 Como Usar
+1. Volte à página de Torneio (`/torneio`)
+2. Verifique o status atual e o bracket do torneio
+3. Após todas as batalhas da rodada atual serem resolvidas, clique em "Avançar Torneio" para prosseguir para a próxima fase
+4. Se necessário, utilize a função "Resetar Torneio" para recomeçar
 
-    Cadastro de Startups:
+**API Relacionada:**
+- `POST /torneio/avancar` - Avançar para a próxima fase do torneio
+- `POST /torneio/resetar` - Resetar o torneio para o estado inicial
 
-        Acesse /admin e insira 4 a 8 startups (nomes, slogans e anos).
+### 5. Geração e Visualização de Relatórios
 
-    Iniciar Torneio:
+1. Acesse a página de Relatórios (`/relatorios`)
+2. Selecione o tipo de relatório desejado:
+   - Relatório Simples: visão geral do torneio
+   - Relatório Detalhado: dados completos de todas as batalhas e participantes
+3. Visualize os dados na própria página
+4. Utilize as opções de exportação (PDF, CSV) se disponíveis
 
-        Clique em "Iniciar Torneio" para sortear as primeiras batalhas.
+**API Relacionada:**
+- `GET /torneio/relatorio-detalhado` - Gerar relatório detalhado com todas as informações
 
-    Administrar Batalhas:
+## Solução de Problemas
 
-        Selecione uma batalha pendente.
+### Problemas Comuns no Backend
 
-        Registre eventos (ex: Boa tração de usuários).
+1. **Erro de conexão com o banco de dados**
+   - Verifique as credenciais no arquivo `.env`
+   - Certifique-se de que o serviço de banco de dados está em execução
 
-        O sistema calcula o vencedor automaticamente.
+2. **Erro 500 nas requisições API**
+   - Verifique os logs em `storage/logs/lumen.log`
+   - Confirme se as migrações foram executadas corretamente
 
-    Shark Fight (Empates):
+3. **Erro "Route not found"**
+   - Verifique se o servidor está sendo executado na porta correta
+   - Confirme se a rota está definida corretamente em `routes/web.php`
 
-        Em caso de empate, o sistema roda uma rodada relâmpago.
+### Problemas Comuns no Frontend
 
-    Relatório Final:
+1. **Erro de conexão com a API**
+   - Verifique se a URL da API está configurada corretamente
+   - Certifique-se de que o backend está em execução
 
-        Ao final, veja o ranking e o slogan da startup campeã!
+2. **Componentes não carregando**
+   - Verifique os erros no console do navegador
+   - Confirme se os arquivos Vue estão no caminho correto (`../views/`)
 
-🐛 Problemas Comuns
+3. **Problemas de navegação**
+   - Verifique se o histórico web está configurado corretamente
+   - Confirme se não há conflitos de rota no arquivo de rotas
 
-    Erro ao conectar ao PostgreSQL: Verifique as credenciais no .env.
+## Comandos Úteis
 
-    Eventos não registrando: Confira se a batalha está ativa no painel admin.
+### Backend (Lumen)
 
-    Shark Fight não disparando: O empate deve ser exato (ex: 70x70).
+```bash
+# Limpar cache
+php artisan cache:clear
 
-📜 Licença
+# Verificar status das migrações
+php artisan migrate:status
 
-MIT License.
+# Resetar banco de dados
+php artisan migrate:fresh
 
-Feature Extra
+# Rodar seeds (se disponível)
+php artisan db:seed
+```
 
-O sistema inclui um botão de Reiniciar e um Modo Dark para a web.
+### Frontend (Vue.js)
+
+```bash
+# Lint e corrigir arquivos
+npm run lint
+
+# Compilar para produção
+npm run build
+
+# Auditar dependências
+npm audit
+
+# Limpar cache npm
+npm cache clean --force
+```
+
+## Considerações de Segurança
+
+1. Não exponha o backend diretamente à internet em ambiente de produção
+2. Utilize HTTPS para todas as comunicações em ambiente de produção
+3. Implemente autenticação e autorização adequadas antes de usar em produção
+4. Valide todos os dados de entrada tanto no frontend quanto no backend
+5. Realize backups regulares do banco de dados
+
+## Contato e Suporte
+
+Para problemas técnicos ou dúvidas sobre o sistema, entre em contato com a equipe de desenvolvimento através dos canais apropriados.
