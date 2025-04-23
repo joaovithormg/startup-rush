@@ -7,6 +7,9 @@ Vue.js
 PostgreSQL
 
 Um sistema interativo que simula um torneio eliminatório entre startups, com pontuações dinâmicas, eventos aleatórios e batalhas administradas por um usuário-jurado.
+
+
+
 📌 Funcionalidades
 
 ✔️ Cadastro de startups (nome, slogan, ano de fundação).
