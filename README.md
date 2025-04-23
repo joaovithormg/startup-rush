@@ -11,7 +11,7 @@ Este sistema permite organizar e executar torneios entre startups, gerenciar bat
 - **Startups** (`/startups`): Cadastro e visualização de startups
 - **Torneio** (`/torneio`): Gerenciamento do torneio
 - **Batalhas** (`/batalhas`): Avaliação de batalhas pendentes
-- **Relatórios** (`/relatorios`): Visualização de relatórios de desempenho
+- **Relatórios** (`/relatorios`): Visualização de relatório de desempenho
 
 ### Backend (Lumen)
 - **Startups**: Cadastro e listagem
@@ -22,8 +22,8 @@ Este sistema permite organizar e executar torneios entre startups, gerenciar bat
 ## Pré-requisitos
 
 1. Node.js e npm para o frontend
-2. PHP 7.4+ e Composer para o backend
-3. Banco de dados (MySQL/PostgreSQL)
+2. PHP 8+ e Composer para o backend
+3. Banco de dados (PostgreSQL)
 4. Servidor web (Apache/Nginx) ou ambiente de desenvolvimento PHP
 
 ## Instalação
@@ -214,14 +214,3 @@ npm audit
 npm cache clean --force
 ```
 
-## Considerações de Segurança
-
-1. Não exponha o backend diretamente à internet em ambiente de produção
-2. Utilize HTTPS para todas as comunicações em ambiente de produção
-3. Implemente autenticação e autorização adequadas antes de usar em produção
-4. Valide todos os dados de entrada tanto no frontend quanto no backend
-5. Realize backups regulares do banco de dados
-
-## Contato e Suporte
-
-Para problemas técnicos ou dúvidas sobre o sistema, entre em contato com a equipe de desenvolvimento através dos canais apropriados.
